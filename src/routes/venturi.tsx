@@ -40,7 +40,7 @@ function Venturi() {
       </PageHero>
       <section className="mx-auto grid max-w-6xl gap-6 px-5 lg:grid-cols-[1fr_320px]">
         <Card className="overflow-hidden">
-          <svg viewBox="0 0 700 260" className="w-full">
+          <svg viewBox="0 -110 700 330" className="w-full">
             {/* manometers */}
             {[{ x: 120, h: col1, c: "var(--primary)" }, { x: 350, h: col2, c: "var(--accent)" }].map((m, i) => (
               <g key={i}>
