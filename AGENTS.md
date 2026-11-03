@@ -8,3 +8,4 @@
 > Commits you push to the connected branch sync back to Lovable and show up in
 > the editor, so keep the branch in a working state.
 <!-- LOVABLE:END -->
+- Venturi physics lives in src/lib/venturi.ts (pure, tested); pages share header/footer/meta helpers from src/components/SiteLayout.tsx.
