@@ -23,5 +23,5 @@ export default defineConfig({
       }
     : { server: { entry: "server" } },
   ...(ghPages ? { nitro: false as const } : {}),
-  vite: ghPages ? { base: BASE } : {},
+  vite: { base: ghPages ? BASE : "/", define: { __APP_BASE__: JSON.stringify(ghPages ? BASE : "/") } },
 });
