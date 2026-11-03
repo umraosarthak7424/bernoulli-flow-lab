@@ -17,7 +17,7 @@ const Q: { q: string; o: string[]; a: number; why: string }[] = [
 
 function Quiz() {
   const [ans, setAns] = useState<(number | null)[]>(Q.map(() => null));
-  const score = ans.filter((a, i) => a === Q[i].a).length;
+  const score = ans.filter((a, i) => a === Q[i]?.a).length;
   const done = ans.every((a) => a !== null);
   return (
     <>
