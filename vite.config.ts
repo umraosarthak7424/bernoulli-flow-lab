@@ -8,7 +8,7 @@ import { defineConfig } from "@lovable.dev/vite-tanstack-config";
 
 // GITHUB_PAGES=true → static export under /bernoulli-flow-lab/ (every route prerendered to HTML).
 // Unset → normal Lovable build/preview, unchanged.
-const ghPages = process.env.GITHUB_PAGES === "true";
+const ghPages = process.env['GITHUB_PAGES'] === "true";
 const BASE = "/bernoulli-flow-lab/";
 const ROUTES = ["/", "/reality", "/model", "/venturi", "/derivation", "/applications", "/quiz"];
 
