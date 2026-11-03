@@ -17,7 +17,7 @@ export default defineConfig({
     ? {
         server: { entry: "server" },
         router: { basepath: BASE },
-        pages: ROUTES.map((path) => ({ path })),
+        pages: ROUTES.map((p) => ({ path: (BASE + p.slice(1)).replace(/\/$/, "") || "/" })),
         prerender: { enabled: true, autoStaticPathsDiscovery: false },
         spa: { enabled: true, prerender: { outputPath: "/404.html" } },
       }
