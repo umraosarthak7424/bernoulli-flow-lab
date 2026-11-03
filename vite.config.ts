@@ -22,5 +22,6 @@ export default defineConfig({
         spa: { enabled: true, prerender: { outputPath: "/404.html" } },
       }
     : { server: { entry: "server" } },
+  ...(ghPages ? { nitro: false as const } : {}),
   vite: ghPages ? { base: BASE } : {},
 });
