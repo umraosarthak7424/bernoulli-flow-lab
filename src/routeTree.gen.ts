@@ -10,33 +10,115 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ApplicationsRouteImport } from './routes/applications'
+import { Route as DerivationRouteImport } from './routes/derivation'
+import { Route as ModelRouteImport } from './routes/model'
+import { Route as QuizRouteImport } from './routes/quiz'
+import { Route as RealityRouteImport } from './routes/reality'
+import { Route as VenturiRouteImport } from './routes/venturi'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApplicationsRoute = ApplicationsRouteImport.update({
+  id: '/applications',
+  path: '/applications',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DerivationRoute = DerivationRouteImport.update({
+  id: '/derivation',
+  path: '/derivation',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ModelRoute = ModelRouteImport.update({
+  id: '/model',
+  path: '/model',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const QuizRoute = QuizRouteImport.update({
+  id: '/quiz',
+  path: '/quiz',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RealityRoute = RealityRouteImport.update({
+  id: '/reality',
+  path: '/reality',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const VenturiRoute = VenturiRouteImport.update({
+  id: '/venturi',
+  path: '/venturi',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/applications': typeof ApplicationsRoute
+  '/derivation': typeof DerivationRoute
+  '/model': typeof ModelRoute
+  '/quiz': typeof QuizRoute
+  '/reality': typeof RealityRoute
+  '/venturi': typeof VenturiRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/applications': typeof ApplicationsRoute
+  '/derivation': typeof DerivationRoute
+  '/model': typeof ModelRoute
+  '/quiz': typeof QuizRoute
+  '/reality': typeof RealityRoute
+  '/venturi': typeof VenturiRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/applications': typeof ApplicationsRoute
+  '/derivation': typeof DerivationRoute
+  '/model': typeof ModelRoute
+  '/quiz': typeof QuizRoute
+  '/reality': typeof RealityRoute
+  '/venturi': typeof VenturiRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/applications'
+    | '/derivation'
+    | '/model'
+    | '/quiz'
+    | '/reality'
+    | '/venturi'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/applications'
+    | '/derivation'
+    | '/model'
+    | '/quiz'
+    | '/reality'
+    | '/venturi'
+  id:
+    | '__root__'
+    | '/'
+    | '/applications'
+    | '/derivation'
+    | '/model'
+    | '/quiz'
+    | '/reality'
+    | '/venturi'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  ApplicationsRoute: typeof ApplicationsRoute
+  DerivationRoute: typeof DerivationRoute
+  ModelRoute: typeof ModelRoute
+  QuizRoute: typeof QuizRoute
+  RealityRoute: typeof RealityRoute
+  VenturiRoute: typeof VenturiRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +130,59 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/applications': {
+      id: '/applications'
+      path: '/applications'
+      fullPath: '/applications'
+      preLoaderRoute: typeof ApplicationsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/derivation': {
+      id: '/derivation'
+      path: '/derivation'
+      fullPath: '/derivation'
+      preLoaderRoute: typeof DerivationRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/model': {
+      id: '/model'
+      path: '/model'
+      fullPath: '/model'
+      preLoaderRoute: typeof ModelRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/quiz': {
+      id: '/quiz'
+      path: '/quiz'
+      fullPath: '/quiz'
+      preLoaderRoute: typeof QuizRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/reality': {
+      id: '/reality'
+      path: '/reality'
+      fullPath: '/reality'
+      preLoaderRoute: typeof RealityRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/venturi': {
+      id: '/venturi'
+      path: '/venturi'
+      fullPath: '/venturi'
+      preLoaderRoute: typeof VenturiRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  ApplicationsRoute: ApplicationsRoute,
+  DerivationRoute: DerivationRoute,
+  ModelRoute: ModelRoute,
+  QuizRoute: QuizRoute,
+  RealityRoute: RealityRoute,
+  VenturiRoute: VenturiRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
