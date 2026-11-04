@@ -1,37 +1,51 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useState } from "react";
+import { useId, useState } from "react";
 import { Card, NextLink, PageHero, meta } from "@/components/SiteLayout";
-import { venturi } from "@/lib/venturi";
+import { LIMITS, normalizeControls, venturi, type Controls } from "@/lib/venturi";
 
 export const Route = createFileRoute("/venturi")({
   head: () => meta("Interactive Venturi Tube Simulator — Bernoulli's Theorem", "Adjust pipe diameters, inlet speed and pressure to see Bernoulli's principle in a live Venturi tube."),
   component: Venturi,
 });
 
-function Slider({ label, unit, value, set, min, max, step }: { label: string; unit: string; value: number; set: (n: number) => void; min: number; max: number; step: number }) {
+function Slider({ label, unit, value, set, min, max, step, hint }: { label: string; unit: string; value: number; set: (n: number) => void; min: number; max: number; step: number; hint?: string }) {
+  const id = useId();
   return (
-    <label className="block">
-      <div className="flex justify-between text-sm"><span className="text-muted-foreground">{label}</span><span className="eq">{value} {unit}</span></div>
-      <input type="range" min={min} max={max} step={step} value={value} onChange={(e) => set(+e.target.value)} className="mt-1 w-full accent-primary" />
-    </label>
+    <div>
+      <div className="flex justify-between text-sm">
+        <label htmlFor={id} className="text-muted-foreground">{label}</label>
+        <output htmlFor={id} className="eq">{value} {unit}</output>
+      </div>
+      <input
+        id={id}
+        type="range"
+        min={min}
+        max={max}
+        step={step}
+        value={value}
+        aria-valuetext={`${value} ${unit}`}
+        onChange={(e) => set(e.currentTarget.valueAsNumber)}
+        className="mt-1 h-8 w-full cursor-pointer touch-pan-y accent-primary"
+      />
+      {hint && <p className="text-xs text-muted-foreground">{hint}</p>}
+    </div>
   );
 }
 
 function Venturi() {
-  const [d1, setD1] = useState(10);
-  const [d2, setD2] = useState(5);
-  const [v1, setV1] = useState(1.5);
-  const [p1, setP1] = useState(120);
-  const [rho, setRho] = useState(1000);
-  const r = venturi({ d1: d1 / 100, d2: Math.min(d2, d1) / 100, v1, p1: p1 * 1000, rho });
+  const [c, setC] = useState<Controls>({ d1: 10, d2: 5, v1: 1.5, p1: 120, rho: 1000 });
+  const update = (k: keyof Controls) => (n: number) => setC((prev) => normalizeControls({ ...prev, [k]: n }, prev));
+  const { d1, d2, v1, p1, rho } = c;
+  const r = venturi({ d1: d1 / 100, d2: d2 / 100, v1, p1: p1 * 1000, rho });
   const cavitate = r.p2 < 0;
   const H1 = 100;
-  const H2 = (H1 * Math.min(d2, d1)) / d1;
+  const H2 = Math.max(2, (H1 * d2) / d1);
   const top2 = 110 - H2 / 2, bot2 = 110 + H2 / 2;
   const col1 = Math.min(150, p1 / 1.2);
   const col2 = Math.max(0, Math.min(150, r.p2 / 1000 / 1.2));
   const speed = Math.max(0.15, 2 / v1);
   const lines = [-0.35, 0, 0.35];
+
 
   return (
     <>
