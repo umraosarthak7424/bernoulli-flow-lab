@@ -1,37 +1,51 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useState } from "react";
+import { useId, useState } from "react";
 import { Card, NextLink, PageHero, meta } from "@/components/SiteLayout";
-import { venturi } from "@/lib/venturi";
+import { LIMITS, normalizeControls, venturi, type Controls } from "@/lib/venturi";
 
 export const Route = createFileRoute("/venturi")({
   head: () => meta("Interactive Venturi Tube Simulator — Bernoulli's Theorem", "Adjust pipe diameters, inlet speed and pressure to see Bernoulli's principle in a live Venturi tube."),
   component: Venturi,
 });
 
-function Slider({ label, unit, value, set, min, max, step }: { label: string; unit: string; value: number; set: (n: number) => void; min: number; max: number; step: number }) {
+function Slider({ label, unit, value, set, min, max, step, hint }: { label: string; unit: string; value: number; set: (n: number) => void; min: number; max: number; step: number; hint?: string }) {
+  const id = useId();
   return (
-    <label className="block">
-      <div className="flex justify-between text-sm"><span className="text-muted-foreground">{label}</span><span className="eq">{value} {unit}</span></div>
-      <input type="range" min={min} max={max} step={step} value={value} onChange={(e) => set(+e.target.value)} className="mt-1 w-full accent-primary" />
-    </label>
+    <div>
+      <div className="flex justify-between text-sm">
+        <label htmlFor={id} className="text-muted-foreground">{label}</label>
+        <output htmlFor={id} className="eq">{value} {unit}</output>
+      </div>
+      <input
+        id={id}
+        type="range"
+        min={min}
+        max={max}
+        step={step}
+        value={value}
+        aria-valuetext={`${value} ${unit}`}
+        onChange={(e) => set(e.currentTarget.valueAsNumber)}
+        className="mt-1 h-8 w-full cursor-pointer touch-pan-y accent-primary"
+      />
+      {hint && <p className="text-xs text-muted-foreground">{hint}</p>}
+    </div>
   );
 }
 
 function Venturi() {
-  const [d1, setD1] = useState(10);
-  const [d2, setD2] = useState(5);
-  const [v1, setV1] = useState(1.5);
-  const [p1, setP1] = useState(120);
-  const [rho, setRho] = useState(1000);
-  const r = venturi({ d1: d1 / 100, d2: Math.min(d2, d1) / 100, v1, p1: p1 * 1000, rho });
+  const [c, setC] = useState<Controls>({ d1: 10, d2: 5, v1: 1.5, p1: 120, rho: 1000 });
+  const update = (k: keyof Controls) => (n: number) => setC((prev) => normalizeControls({ ...prev, [k]: n }, prev));
+  const { d1, d2, v1, p1, rho } = c;
+  const r = venturi({ d1: d1 / 100, d2: d2 / 100, v1, p1: p1 * 1000, rho });
   const cavitate = r.p2 < 0;
   const H1 = 100;
-  const H2 = (H1 * Math.min(d2, d1)) / d1;
+  const H2 = Math.max(2, (H1 * d2) / d1);
   const top2 = 110 - H2 / 2, bot2 = 110 + H2 / 2;
   const col1 = Math.min(150, p1 / 1.2);
   const col2 = Math.max(0, Math.min(150, r.p2 / 1000 / 1.2));
   const speed = Math.max(0.15, 2 / v1);
   const lines = [-0.35, 0, 0.35];
+
 
   return (
     <>
@@ -40,7 +54,7 @@ function Venturi() {
       </PageHero>
       <section className="mx-auto grid max-w-6xl gap-6 px-5 lg:grid-cols-[1fr_320px]">
         <Card className="overflow-hidden">
-          <svg viewBox="0 -110 700 330" className="w-full">
+          <svg viewBox="0 -110 700 330" className="w-full" role="img" aria-label={`Venturi tube: inlet ${d1} cm, throat ${d2} cm, throat speed ${r.v2.toFixed(2)} m/s, throat pressure ${(r.p2 / 1000).toFixed(2)} kPa`}>
             {/* manometers */}
             {[{ x: 120, h: col1, c: "var(--primary)" }, { x: 350, h: col2, c: "var(--accent)" }].map((m, i) => (
               <g key={i}>
@@ -66,15 +80,16 @@ function Venturi() {
               <div key={k} className="rounded-lg bg-secondary p-3"><p className="text-xs text-muted-foreground">{k}</p><p className="eq text-lg text-primary">{v}</p></div>
             ))}
           </div>
-          {cavitate && <p className="mt-4 rounded-lg border border-destructive p-3 text-sm text-destructive">Calculated throat pressure is negative — not physical. In reality the liquid would cavitate (vaporise) before this point.</p>}
+          {cavitate && <p role="alert" className="mt-4 rounded-lg border border-destructive p-3 text-sm text-destructive">The ideal Bernoulli formula gives a negative throat pressure here, which cannot happen physically. Real liquid would cavitate (vaporise) before reaching this point, so the throat manometer is shown empty. Lower v₁ or widen the throat.</p>}
+          <p className="mt-3 text-xs text-muted-foreground">Assumptions: ideal, incompressible, steady, non-viscous flow in a horizontal tube; P is gauge pressure.</p>
         </Card>
         <Card className="space-y-4">
           <h2 className="text-xl font-semibold">Controls</h2>
-          <Slider label="Inlet diameter d₁" unit="cm" value={d1} set={setD1} min={4} max={20} step={0.5} />
-          <Slider label="Throat diameter d₂" unit="cm" value={Math.min(d2, d1)} set={setD2} min={1} max={20} step={0.5} />
-          <Slider label="Inlet speed v₁" unit="m/s" value={v1} set={setV1} min={0.2} max={5} step={0.1} />
-          <Slider label="Inlet pressure P₁" unit="kPa" value={p1} set={setP1} min={20} max={180} step={1} />
-          <Slider label="Density ρ" unit="kg/m³" value={rho} set={setRho} min={1} max={1500} step={1} />
+          <Slider label="Inlet diameter d₁" unit="cm" value={d1} set={update("d1")} {...LIMITS.d1} />
+          <Slider label="Throat diameter d₂" unit="cm" value={d2} set={update("d2")} min={LIMITS.d2.min} max={d1} step={LIMITS.d2.step} hint={`Range 1 cm – d₁ (${d1} cm)`} />
+          <Slider label="Inlet speed v₁" unit="m/s" value={v1} set={update("v1")} {...LIMITS.v1} />
+          <Slider label="Inlet pressure P₁" unit="kPa" value={p1} set={update("p1")} {...LIMITS.p1} />
+          <Slider label="Density ρ" unit="kg/m³" value={rho} set={update("rho")} {...LIMITS.rho} />
           <div className="eq rounded-lg bg-secondary p-3 text-xs leading-6 text-muted-foreground">
             v₂ = v₁·(d₁/d₂)²<br />P₂ = P₁ + ½ρ(v₁² − v₂²)
           </div>
