@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ApplicationsRouteImport } from './routes/applications'
 import { Route as DerivationRouteImport } from './routes/derivation'
+import { Route as GameRouteImport } from './routes/game'
 import { Route as ModelRouteImport } from './routes/model'
 import { Route as QuizRouteImport } from './routes/quiz'
 import { Route as RealityRouteImport } from './routes/reality'
@@ -30,6 +31,11 @@ const ApplicationsRoute = ApplicationsRouteImport.update({
 const DerivationRoute = DerivationRouteImport.update({
   id: '/derivation',
   path: '/derivation',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const GameRoute = GameRouteImport.update({
+  id: '/game',
+  path: '/game',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ModelRoute = ModelRouteImport.update({
@@ -57,6 +63,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/applications': typeof ApplicationsRoute
   '/derivation': typeof DerivationRoute
+  '/game': typeof GameRoute
   '/model': typeof ModelRoute
   '/quiz': typeof QuizRoute
   '/reality': typeof RealityRoute
@@ -66,6 +73,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/applications': typeof ApplicationsRoute
   '/derivation': typeof DerivationRoute
+  '/game': typeof GameRoute
   '/model': typeof ModelRoute
   '/quiz': typeof QuizRoute
   '/reality': typeof RealityRoute
@@ -76,6 +84,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/applications': typeof ApplicationsRoute
   '/derivation': typeof DerivationRoute
+  '/game': typeof GameRoute
   '/model': typeof ModelRoute
   '/quiz': typeof QuizRoute
   '/reality': typeof RealityRoute
@@ -87,6 +96,7 @@ export interface FileRouteTypes {
     | '/'
     | '/applications'
     | '/derivation'
+    | '/game'
     | '/model'
     | '/quiz'
     | '/reality'
@@ -96,6 +106,7 @@ export interface FileRouteTypes {
     | '/'
     | '/applications'
     | '/derivation'
+    | '/game'
     | '/model'
     | '/quiz'
     | '/reality'
@@ -105,6 +116,7 @@ export interface FileRouteTypes {
     | '/'
     | '/applications'
     | '/derivation'
+    | '/game'
     | '/model'
     | '/quiz'
     | '/reality'
@@ -115,6 +127,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   ApplicationsRoute: typeof ApplicationsRoute
   DerivationRoute: typeof DerivationRoute
+  GameRoute: typeof GameRoute
   ModelRoute: typeof ModelRoute
   QuizRoute: typeof QuizRoute
   RealityRoute: typeof RealityRoute
@@ -142,6 +155,13 @@ declare module '@tanstack/react-router' {
       path: '/derivation'
       fullPath: '/derivation'
       preLoaderRoute: typeof DerivationRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/game': {
+      id: '/game'
+      path: '/game'
+      fullPath: '/game'
+      preLoaderRoute: typeof GameRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/model': {
@@ -179,6 +199,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   ApplicationsRoute: ApplicationsRoute,
   DerivationRoute: DerivationRoute,
+  GameRoute: GameRoute,
   ModelRoute: ModelRoute,
   QuizRoute: QuizRoute,
   RealityRoute: RealityRoute,
