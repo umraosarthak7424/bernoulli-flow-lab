@@ -32,7 +32,7 @@ function Apps() {
           </article>
         ))}
       </section>
-      <NextLink to="/quiz" label="Take the challenge" />
+      <NextLink to="/game" label="Start the Quest" />
     </>
   );
 }
