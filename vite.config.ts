@@ -10,7 +10,7 @@ import { defineConfig } from "@lovable.dev/vite-tanstack-config";
 // Unset → normal Lovable build/preview, unchanged.
 const ghPages = process.env['GITHUB_PAGES'] === "true";
 const BASE = "/bernoulli-flow-lab/";
-const ROUTES = ["/", "/reality", "/model", "/venturi", "/derivation", "/applications", "/quiz"];
+const ROUTES = ["/", "/reality", "/model", "/venturi", "/derivation", "/applications", "/quiz", "/game"];
 
 export default defineConfig({
   tanstackStart: ghPages

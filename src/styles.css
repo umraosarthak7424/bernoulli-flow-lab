@@ -117,3 +117,43 @@
 @keyframes rise { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: none; } }
 @utility animate-rise { animation: rise 0.8s cubic-bezier(.2,.7,.2,1) both; }
 @utility animate-flow { stroke-dasharray: 10 10; animation: flowdash 1s linear infinite; }
+
+/* Bernoulli Quest (game) palette */
+:root {
+  --sky: oklch(0.78 0.11 230);
+  --sky-deep: oklch(0.55 0.15 255);
+  --sun: oklch(0.88 0.16 90);
+  --leaf: oklch(0.76 0.17 145);
+  --coral: oklch(0.72 0.17 25);
+  --candy: oklch(0.74 0.17 340);
+  --ink: oklch(0.22 0.05 260);
+  --cloud: oklch(0.98 0.01 230);
+  --gradient-sky: linear-gradient(180deg, var(--sky-deep), var(--sky) 55%, color-mix(in oklab, var(--sun) 40%, var(--sky)));
+}
+@theme inline {
+  --color-sky: var(--sky);
+  --color-sky-deep: var(--sky-deep);
+  --color-sun: var(--sun);
+  --color-leaf: var(--leaf);
+  --color-coral: var(--coral);
+  --color-candy: var(--candy);
+  --color-ink: var(--ink);
+  --color-cloud: var(--cloud);
+}
+@utility bg-sky-gradient { background: var(--gradient-sky); }
+@keyframes bob { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+@keyframes drift { from { transform: translateX(-20%); } to { transform: translateX(120vw); } }
+@keyframes popin { 0% { transform: scale(.3); opacity: 0; } 70% { transform: scale(1.1); } 100% { transform: scale(1); opacity: 1; } }
+@keyframes shake { 0%,100% { transform: translateX(0); } 25% { transform: translateX(-6px); } 75% { transform: translateX(6px); } }
+@utility animate-bob { animation: bob 3s ease-in-out infinite; }
+@utility animate-drift { animation: drift 40s linear infinite; }
+@utility animate-popin { animation: popin .45s cubic-bezier(.2,.8,.3,1.3) both; }
+@utility animate-shake { animation: shake .3s ease-in-out 2; }
+@media print {
+  header, footer, .no-print { display: none !important; }
+  body { background: none !important; }
+  .print-area { color: black !important; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .animate-bob, .animate-drift, .animate-popin, .animate-shake { animation: none !important; }
+}
