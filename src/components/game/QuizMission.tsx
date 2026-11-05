@@ -84,9 +84,11 @@ export function QuizMission({ title, rounds, variant, onDone, onExit }: MissionP
         {variant === "skyship" && (
           <Panel className="flex items-center gap-3 md:flex-col md:justify-between">
             <p className="eq text-xs">ALTITUDE</p>
-            <div className="relative h-6 w-full rounded-full border-2 border-ink bg-sky/30 md:h-64 md:w-8" aria-label={`Altitude ${altitude}%`}>
-              <div className="absolute bottom-0 left-0 h-full rounded-full bg-leaf transition-all duration-700 md:h-auto md:w-full" style={{ width: undefined, ["--a" as string]: `${altitude}%`, height: undefined }} />
-              <div className="absolute bottom-0 left-0 rounded-full bg-leaf transition-all duration-700 max-md:h-full md:w-full" style={{ height: `var(--h)`, width: `var(--w)`, ["--h" as string]: `${altitude}%`, ["--w" as string]: "100%" }} />
+            <div className="relative h-6 w-full overflow-hidden rounded-full border-2 border-ink bg-sky/30 md:hidden" aria-label={`Altitude ${altitude}%`}>
+              <div className="h-full bg-leaf transition-all duration-700" style={{ width: `${altitude}%` }} />
+            </div>
+            <div className="relative hidden h-64 w-8 overflow-hidden rounded-full border-2 border-ink bg-sky/30 md:block" aria-hidden>
+              <div className="absolute bottom-0 w-full bg-leaf transition-all duration-700" style={{ height: `${altitude}%` }} />
             </div>
             <p className="text-3xl animate-bob">🎈</p>
           </Panel>
