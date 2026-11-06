@@ -157,3 +157,46 @@
 @media (prefers-reduced-motion: reduce) {
   .animate-bob, .animate-drift, .animate-popin, .animate-shake { animation: none !important; }
 }
+
+
+
+/* Playful, accessible micro-interactions across the learning site */
+.nav-link { transform: translateY(0) scale(1); transition: transform .2s ease, color .2s ease, background .2s ease, box-shadow .2s ease; }
+.nav-link:hover, .nav-link:focus-visible { transform: translateY(-2px) scale(1.045); color: var(--foreground); box-shadow: 0 7px 20px -12px color-mix(in oklab,var(--primary) 85%,transparent); }
+.nav-link-active { background: color-mix(in oklab,var(--primary) 15%,var(--secondary)); color: var(--primary) !important; box-shadow: inset 0 0 0 1px color-mix(in oklab,var(--primary) 35%,transparent); }
+.primary-action { box-shadow: var(--shadow-glow); }
+.primary-action:hover, .secondary-action:hover { transform: translateY(-2px) scale(1.025); box-shadow: var(--shadow-glow); }
+.primary-action:active, .secondary-action:active { transform: scale(.97); }
+.interactive-card:hover { transform: translateY(-3px); border-color: color-mix(in oklab,var(--primary) 65%,var(--border)); box-shadow: 0 14px 32px -24px var(--primary); }
+.next-stage:hover { box-shadow: var(--shadow-glow); }
+.control-range { appearance: none; height: 9px; border-radius: 999px; background: linear-gradient(90deg,var(--primary),color-mix(in oklab,var(--primary) 35%,var(--secondary))); border: 1px solid var(--border); outline-offset: 4px; }
+.control-range::-webkit-slider-thumb { appearance: none; width: 19px; height: 19px; border-radius: 50%; background: var(--accent); border: 3px solid var(--background); box-shadow: 0 0 0 2px var(--primary),0 2px 9px #0006; cursor: grab; }
+.control-range::-moz-range-thumb { width: 14px; height: 14px; border-radius: 50%; background: var(--accent); border: 3px solid var(--background); box-shadow: 0 0 0 2px var(--primary),0 2px 9px #0006; cursor: grab; }
+.control-range:focus-visible { outline: 2px solid var(--primary); }
+.assumption-wrap { position: relative; z-index: 0; }
+.assumption-wrap:hover, .assumption-wrap:focus-within { z-index: 30; }
+.assumption-card { cursor: pointer; }
+.assumption-tip { position: absolute; z-index: 40; top: calc(100% + .65rem); left: 0; width: min(310px,calc(100vw - 3.5rem)); padding: 14px 16px; border: 1px solid var(--primary); border-radius: 14px; background: var(--popover); color: var(--muted-foreground); box-shadow: 0 16px 38px -18px #000b,0 0 24px -14px var(--primary); opacity: 0; visibility: hidden; pointer-events: none; transform: translateY(8px) scale(.98); transform-origin: top left; transition: opacity .18s ease,transform .18s ease,visibility .18s ease; font-size: .875rem; line-height: 1.45; }
+.assumption-card:hover .assumption-tip, .assumption-card:focus-visible .assumption-tip, .assumption-tip-open { opacity: 1; visibility: visible; transform: translateY(0) scale(1); }
+.reveal-step { animation: stepReveal .45s cubic-bezier(.2,.7,.2,1) both; }
+@keyframes stepReveal { from { opacity: 0; transform: translateY(16px) scale(.985); } to { opacity: 1; transform: translateY(0) scale(1); } }
+.water-shimmer { animation: shimmerDown 1.25s linear infinite; }
+@keyframes shimmerDown { to { transform: translateY(28px); } }
+.water-drop { animation: waterDrop 1.8s ease-in infinite; }
+@keyframes waterDrop { 0% { opacity: 0; transform: translateY(-8px); } 20% { opacity: 1; } 90%,100% { opacity: 0; transform: translateY(18px); } }
+.venturi-particle { filter: drop-shadow(0 0 4px #6deaff); }
+.venturi-lab-card, .venturi-controls { box-shadow: 0 14px 36px -30px var(--primary); }
+.metric-tile { transition: transform .2s ease,border-color .2s ease; }
+.metric-tile:hover { transform: translateY(-2px); border-color: var(--primary); }
+.audio-toggle { white-space: nowrap; }
+.audio-volume { min-width: 72px; }
+@media (max-width: 640px) {
+  .audio-label { display: none; }
+  .audio-volume { min-width: 58px; padding-inline: 6px; }
+  .audio-volume .control-range { width: 38px; }
+  .assumption-tip { position: fixed; left: 1rem; top: auto; bottom: 1rem; width: calc(100vw - 2rem); transform: translateY(8px); }
+  .assumption-card:focus-visible .assumption-tip, .assumption-tip-open { transform: translateY(0); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .nav-link,.primary-action,.secondary-action,.interactive-card,.metric-tile,.assumption-tip,.reveal-step,.water-shimmer,.water-drop { animation: none !important; transition: none !important; transform: none !important; }
+}

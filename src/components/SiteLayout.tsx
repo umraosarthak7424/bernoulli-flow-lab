@@ -1,5 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import { useState, type ReactNode } from "react";
+import { SiteAudioControls } from "@/components/SiteAudio";
 
 const NAV = [
   { to: "/", label: "Home" },
@@ -11,46 +12,38 @@ const NAV = [
   { to: "/game", label: "Quest" },
 ] as const;
 
+const navClass = "nav-link rounded-lg px-3 py-2 text-sm text-muted-foreground transition-all duration-200 hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary";
+
 export function SiteHeader() {
   const [open, setOpen] = useState(false);
   return (
-    <header className="sticky top-0 z-50 border-b border-border bg-background/80 backdrop-blur">
-      <div className="mx-auto flex max-w-6xl items-center justify-between px-5 py-3">
-        <Link to="/" className="font-display text-lg font-semibold">
+    <header className="sticky top-0 z-50 border-b border-border bg-background/90 backdrop-blur-xl">
+      <div className="mx-auto flex max-w-6xl items-center justify-between gap-3 px-5 py-3">
+        <Link to="/" className="brand-link shrink-0 font-display text-lg font-semibold transition-transform duration-200 hover:-translate-y-0.5 hover:scale-[1.03]">
           <span className="text-gradient">P + ½ρv² + ρgh</span>
         </Link>
-        <nav className="hidden gap-1 md:flex">
+        <nav className="hidden items-center gap-1 md:flex">
           {NAV.map((n) => (
-            <Link
-              key={n.to}
-              to={n.to}
-              activeOptions={{ exact: true }}
-              className="rounded-md px-3 py-1.5 text-sm text-muted-foreground transition-colors hover:text-foreground"
-              activeProps={{ className: "bg-secondary text-primary" }}
-            >
+            <Link key={n.to} to={n.to} activeOptions={{ exact: true }} className={navClass}
+              activeProps={{ className: "nav-link nav-link-active rounded-lg px-3 py-2 text-sm" }}>
               {n.label}
             </Link>
           ))}
         </nav>
-        <button
-          className="rounded-md border border-border px-3 py-1.5 text-sm md:hidden"
-          onClick={() => setOpen(!open)}
-          aria-label="Toggle menu"
-        >
-          {open ? "Close" : "Menu"}
-        </button>
+        <div className="flex items-center gap-2">
+          <SiteAudioControls />
+          <button className="rounded-lg border border-border px-3 py-2 text-sm transition-all hover:-translate-y-0.5 hover:border-primary hover:shadow-glow active:scale-95 md:hidden"
+            onClick={() => setOpen(!open)} aria-label="Toggle menu" aria-expanded={open}>
+            {open ? "Close" : "Menu"}
+          </button>
+        </div>
       </div>
       {open && (
-        <nav className="flex flex-col border-t border-border px-5 py-2 md:hidden">
+        <nav className="flex flex-col gap-1 border-t border-border bg-background/95 px-5 py-3 md:hidden">
           {NAV.map((n) => (
-            <Link
-              key={n.to}
-              to={n.to}
-              onClick={() => setOpen(false)}
-              activeOptions={{ exact: true }}
-              className="py-2 text-muted-foreground"
-              activeProps={{ className: "text-primary" }}
-            >
+            <Link key={n.to} to={n.to} onClick={() => setOpen(false)} activeOptions={{ exact: true }}
+              className="nav-link rounded-lg px-3 py-3 text-base text-muted-foreground"
+              activeProps={{ className: "nav-link nav-link-active rounded-lg px-3 py-3 text-base" }}>
               {n.label}
             </Link>
           ))}
@@ -64,7 +57,7 @@ export function SiteFooter() {
   return (
     <footer className="mt-24 border-t border-border">
       <div className="mx-auto flex max-w-6xl flex-col gap-2 px-5 py-8 text-sm text-muted-foreground md:flex-row md:justify-between">
-        <p>Made by SARTHAK UMRAO (24SD12007) and SOHIT (24SD12013))</p>
+        <p>Made by SARTHAK UMRAO (24SD12007) and SOHIT (24SD12013)</p>
         <p className="eq">P₁ + ½ρv₁² + ρgh₁ = P₂ + ½ρv₂² + ρgh₂</p>
       </div>
     </footer>
@@ -82,15 +75,15 @@ export function PageHero({ kicker, title, children }: { kicker: string; title: R
 }
 
 export function Card({ children, className = "" }: { children: ReactNode; className?: string }) {
-  return <div className={`rounded-xl border border-border bg-card p-6 ${className}`}>{children}</div>;
+  return <div className={`rounded-2xl border border-border bg-card p-6 transition-all duration-200 ${className}`}>{children}</div>;
 }
 
 export function NextLink({ to, label }: { to: (typeof NAV)[number]["to"]; label: string }) {
   return (
     <div className="mx-auto mt-16 max-w-6xl px-5">
-      <Link to={to} className="group flex items-center justify-between rounded-xl border border-border bg-card p-6 transition hover:shadow-glow">
+      <Link to={to} className="next-stage group flex items-center justify-between rounded-2xl border border-border bg-card p-6 transition-all duration-200 hover:-translate-y-1 hover:border-primary hover:shadow-glow">
         <span className="text-muted-foreground">Next stage</span>
-        <span className="font-display text-2xl text-primary">{label} →</span>
+        <span className="font-display text-xl text-primary md:text-2xl">{label} →</span>
       </Link>
     </div>
   );
