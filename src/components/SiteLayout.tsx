@@ -19,7 +19,7 @@ export function SiteHeader() {
   return (
     <header className="sticky top-0 z-50 border-b border-border bg-background/90 backdrop-blur-xl">
       <div className="mx-auto flex max-w-6xl items-center justify-between gap-3 px-5 py-3">
-        <Link to="/" className="shrink-0 font-display text-lg font-semibold">
+        <Link to="/" className="brand-link shrink-0 font-display text-lg font-semibold transition-transform duration-200 hover:-translate-y-0.5 hover:scale-[1.03]">
           <span className="text-gradient">P + ½ρv² + ρgh</span>
         </Link>
         <nav className="hidden items-center gap-1 md:flex">
