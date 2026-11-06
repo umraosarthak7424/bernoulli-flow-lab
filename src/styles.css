@@ -200,3 +200,55 @@
 @media (prefers-reduced-motion: reduce) {
   .nav-link,.primary-action,.secondary-action,.interactive-card,.metric-tile,.assumption-tip,.reveal-step,.water-shimmer,.water-drop { animation: none !important; transition: none !important; transform: none !important; }
 }
+
+
+/* Refined tap, lively fluid model, and visible author credit */
+.footer-credit {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: .55rem .8rem;
+  border: 1px solid color-mix(in oklab,var(--primary) 35%,var(--border));
+  border-radius: 999px;
+  padding: .6rem 1rem;
+  background: linear-gradient(110deg,color-mix(in oklab,var(--primary) 13%,var(--card)),var(--card));
+  box-shadow: 0 8px 26px -22px var(--primary);
+}
+.footer-credit-label {
+  color: var(--accent);
+  font-family: var(--font-mono);
+  font-size: .68rem;
+  font-weight: 600;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+}
+.footer-credit-names {
+  color: var(--foreground);
+  font-weight: 600;
+  letter-spacing: .015em;
+}
+.footer-credit-names span {
+  color: var(--muted-foreground);
+  font-size: .86em;
+  font-weight: 500;
+}
+.footer-credit-names i {
+  color: var(--primary);
+  font-style: normal;
+  padding-inline: .2rem;
+}
+.derivation-model {
+  background: linear-gradient(145deg,color-mix(in oklab,var(--primary) 7%,var(--card)),var(--card) 72%);
+}
+.model-flow-line {
+  animation: modelFlow 1.2s linear infinite;
+}
+@keyframes modelFlow {
+  to { stroke-dashoffset: -48; }
+}
+.model-fluid-glow {
+  filter: drop-shadow(0 0 5px #55dff4);
+}
+@media (prefers-reduced-motion: reduce) {
+  .model-flow-line { animation: none !important; }
+}
