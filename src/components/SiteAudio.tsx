@@ -20,7 +20,7 @@ function tone(ctx: AudioContext, frequency: number, duration: number, volume: nu
 
 export function SiteAudioControls() {
   const pathname = useRouterState({ select: (state) => state.location.pathname });
-  const onQuest = pathname.startsWith("/game");
+  const onQuest = /(?:^|\\/)game(?:\\/|$)/.test(pathname);
   const [prefs, setPrefs] = useState<AudioPrefs>(DEFAULT_PREFS);
   const [loaded, setLoaded] = useState(false);
   const [unlocked, setUnlocked] = useState(false);
