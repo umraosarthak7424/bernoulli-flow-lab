@@ -73,7 +73,7 @@ export function SiteAudioControls() {
     };
     const handleInput = (event: Event) => {
       const target = event.target;
-      if (!(target instanceof HTMLInputElement) || target.type !== "range") return;
+      if (!(target instanceof HTMLInputElement) || target.type !== "range" || target.dataset.silent === "true") return;
       const now = performance.now();
       if (now - lastInputSound < 140) return;
       lastInputSound = now;
@@ -121,12 +121,16 @@ export function SiteAudioControls() {
 
   return (
     <div className="flex items-center gap-1.5" aria-label="Website audio controls">
-      <button type="button" onClick={toggleEffects} aria-pressed={prefs.effects}
+      <button type="button" onClick={toggleEffects} aria-pressed={prefs.effects} aria-label={prefs.effects ? "Turn sound effects off" : "Turn sound effects on"}
         className="audio-toggle rounded-lg border border-border px-2.5 py-2 text-xs font-medium transition-all hover:-translate-y-0.5 hover:border-primary hover:shadow-glow active:scale-95"
-        title="Toggle sound effects">{prefs.effects ? "🔊 Effects" : "🔇 Effects"}</button>
-      <button type="button" onClick={toggleMusic} aria-pressed={prefs.music}
+        title="Toggle sound effects">{prefs.effects ? "🔊" : "🔇"}<span className="audio-label"> Effects</span></button>
+      <button type="button" onClick={toggleMusic} aria-pressed={prefs.music} aria-label={prefs.music ? "Turn background music off" : "Turn background music on"}
         className="audio-toggle rounded-lg border border-border px-2.5 py-2 text-xs font-medium transition-all hover:-translate-y-0.5 hover:border-primary hover:shadow-glow active:scale-95"
-        title="Toggle background music">{prefs.music ? "♫ Music on" : "♫ Music off"}</button>
+        title="Toggle background music">{prefs.music ? "♫" : "♪"}<span className="audio-label"> Music {prefs.music ? "on" : "off"}</span></button>
+      <label className="audio-volume flex items-center gap-1 rounded-lg border border-border px-2 py-2" title="Background and effects volume">
+        <span className="sr-only">Website volume</span><span aria-hidden>◖</span>
+        <input type="range" min="0" max=".5" step=".01" value={prefs.volume} onChange={(e)=>setPrefs(p=>({...p,volume:Number(e.target.value)}))} aria-label="Website volume" className="control-range w-12 sm:w-16" data-silent="true"/>
+      </label>
     </div>
   );
 }
