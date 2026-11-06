@@ -55,7 +55,7 @@ function Venturi() {
             <rect x="30" y="96" width={190} height="8" fill="url(#pressureBand)" opacity={.3+inletPressure/220}/>
             <rect x="300" y={top2} width="155" height={bottom2-top2} fill="#e65f5a" opacity=".12"/>
             {[0,1,2,3,4,5].map(i=><path key={i} d={`M30 ${118+i*18} H190 C285 ${118+i*18} 290 ${160+(i-2.5)*throatHeight/6} 355 ${160+(i-2.5)*throatHeight/6} H405 C470 ${160+(i-2.5)*throatHeight/6} 475 ${118+i*18} 570 ${118+i*18} H730`} fill="none" stroke="#b8f6ff" strokeWidth="2" opacity=".45" strokeDasharray="9 11" className="animate-flow" style={{animationDuration:`${flowDuration}s`}}/>)}
-            {[0,1,2,3,4].map(i=><circle key={i} r="5" fill="#f4fdff" stroke="#1aa8d5" strokeWidth="2" className="venturi-particle"><animateMotion dur={`${3.3/Math.max(1,speedRatio)}s`} repeatCount="indefinite" begin={`${i*.5}s`} path={`M35 160 H190 C285 160 290 160 355 160 H405 C470 160 475 160 570 160 H725`}/></circle>)}
+            {[0,1,2,3,4].map(i=><circle key={i} r={Math.max(1.5, Math.min(4, throatHeight / 7))} fill="#f4fdff" stroke="#1aa8d5" strokeWidth="2" className="venturi-particle"><animateMotion dur={`${3.3/Math.max(1,speedRatio)}s`} repeatCount="indefinite" begin={`${i*.5}s`} path={`M35 160 H190 C285 160 290 160 355 160 H405 C470 160 475 160 570 160 H725`}/></circle>)}
           </g>
           {/* manometer taps and columns */}
           <path d="M130 100 V48 Q130 34 144 34 H184 Q198 34 198 48 V100" fill="none" stroke="var(--muted-foreground)" strokeWidth="7" strokeLinecap="round"/>
