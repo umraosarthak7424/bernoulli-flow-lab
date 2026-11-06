@@ -164,7 +164,7 @@
 .nav-link { transform: translateY(0) scale(1); transition: transform .2s ease, color .2s ease, background .2s ease, box-shadow .2s ease; }
 .nav-link:hover, .nav-link:focus-visible { transform: translateY(-2px) scale(1.045); color: var(--foreground); box-shadow: 0 7px 20px -12px color-mix(in oklab,var(--primary) 85%,transparent); }
 .nav-link-active { background: color-mix(in oklab,var(--primary) 15%,var(--secondary)); color: var(--primary) !important; box-shadow: inset 0 0 0 1px color-mix(in oklab,var(--primary) 35%,transparent); }
-.primary-action { box-shadow: 0 8px 24px -12px var(--shadow-glow); }
+.primary-action { box-shadow: var(--shadow-glow); }
 .primary-action:hover, .secondary-action:hover { transform: translateY(-2px) scale(1.025); box-shadow: var(--shadow-glow); }
 .primary-action:active, .secondary-action:active { transform: scale(.97); }
 .interactive-card:hover { transform: translateY(-3px); border-color: color-mix(in oklab,var(--primary) 65%,var(--border)); box-shadow: 0 14px 32px -24px var(--primary); }
